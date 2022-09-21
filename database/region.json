@@ -1,0 +1,20 @@
+[
+    {
+        "id": "001",
+        "name": "West Sri Lanka",
+        "province": "Colombo",
+        "countryId": "001",
+        "numberTypes": [
+            "001",
+            "002",
+            "003"
+        ]
+    },
+    {
+        "id": "002",
+        "name": "Central Canada",
+        "province": "Canada",
+        "countryId": "002",
+        "numberTypes": null
+    }
+]

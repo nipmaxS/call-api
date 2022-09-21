@@ -1,0 +1,14 @@
+[
+    {
+        "id": "001",
+        "rate": "$",
+        "type": "Vat",
+        "amount": 20
+    },
+    {
+        "id": "002",
+        "rate": "$",
+        "type": "Service Chargers",
+        "amount": 50
+    }
+]

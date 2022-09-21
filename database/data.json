@@ -1,0 +1,205 @@
+[
+    {
+        "code": "LK",
+        "name": "Sri Lanka",
+        "flag": "https://flagcdn.com/w20/lk.png",
+        "Region": [
+            {
+                "id": "001",
+                "name": "West Sri Lanka",
+                "province": "Colombo",
+                "numberTypes": [
+                    {
+                        "id": "001",
+                        "name": "Local Call",
+                        "callType": [
+                            {
+                                "id": "001",
+                                "name": "Inbound",
+                                "isSupported": true,
+                                "price": {
+                                    "id": "001",
+                                    "amount": 0.2210,
+                                    "rate": "$",
+                                    "per": "min",
+                                    "additionalChargers": [
+                                        {
+                                            "id": "001",
+                                            "rate": "$",
+                                            "type": "vat",
+                                            "amount": 20
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "id": "002",
+                                "name": "Outbound",
+                                "isSupported": false,
+                                "price": null
+                            }
+                        ]
+                    },
+                    {
+                        "id": "002",
+                        "name": " Tall Free Call",
+                        "callType": [
+                            {
+                                "id": "001",
+                                "name": "Inbound",
+                                "isSupported": false,
+                                "price": null
+                            },
+                            {
+                                "id": "002",
+                                "name": "Outbound",
+                                "isSupported": false,
+                                "price": null
+                            }
+                        ]
+                    },
+                    {
+                        "id": "003",
+                        "name": " Client SDK (browser, mobile) and SIP Calls",
+                        "callType": [
+                            {
+                                "id": "001",
+                                "name": "Inbound",
+                                "isSupported": true,
+                                "price": {
+                                    "id": "002",
+                                    "amount": 0.0030,
+                                    "per": "min",
+                                    "rate": "$",
+                                    "additionalChargers": [
+                                        {
+                                            "id": "001",
+                                            "type": "vat",
+                                            "amount": 20
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "id": "002",
+                                "name": "Outbound",
+                                "isSupported": true,
+                                "price": {
+                                    "id": "002",
+                                    "amount": 0.0030,
+                                    "per": "min",
+                                    "rate": "$",
+                                    "additionalChargers": null
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "code": "ca",
+        "name": "Canada",
+        "flag": "https://flagcdn.com/w20/ca.png",
+        "Region": [
+            {
+                "id": "001",
+                "name": "Central Canada.",
+                "province": "Canada",
+                "numberTypes": [
+                    {
+                        "id": "001",
+                        "name": "Local Call",
+                        "callType": [
+                            {
+                                "id": "001",
+                                "name": "Inbound",
+                                "isSupported": true,
+                                "price": {
+                                    "id": "001",
+                                    "amount": 0.2210,
+                                    "rate": "$",
+                                    "per": "min",
+                                    "additionalChargers": null
+                                }
+                            },
+                            {
+                                "id": "001",
+                                "name": "Outbound",
+                                "isSupported": true,
+                                "price": {
+                                    "id": "003",
+                                    "amount": 0.0075,
+                                    "rate": "$",
+                                    "per": "min",
+                                    "additionalChargers": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "id": "002",
+                        "name": " Tall Free Call",
+                        "callType": [
+                            {
+                                "id": "001",
+                                "name": "Inbound",
+                                "isSupported": true,
+                                "price": {
+                                    "id": "002",
+                                    "amount": 0.0030,
+                                    "rate": "$",
+                                    "per": "min",
+                                    "additionalChargers": null
+                                }
+                            },
+                            {
+                                "id": "002",
+                                "name": "Outbound",
+                                "isSupported": true,
+                                "price": {
+                                    "id": "004",
+                                    "amount": 0.0180,
+                                    "rate": "$",
+                                    "per": "min",
+                                    "additionalChargers": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "id": "003",
+                        "name": " Client SDK (browser, mobile) and SIP Calls",
+                        "callType": [
+                            {
+                                "id": "001",
+                                "name": "Inbound",
+                                "isSupported": true,
+                                "price": {
+                                    "id": "002",
+                                    "amount": 0.0030,
+                                    "per": "min",
+                                    "rate": "$",
+                                    "additionalChargers": null
+                                }
+                            },
+                            {
+                                "id": "001",
+                                "name": "Outbound",
+                                "isSupported": true,
+                                "price": {
+                                    "id": "002",
+                                    "amount": 0.0030,
+                                    "per": "min",
+                                    "rate": "$",
+                                    "additionalChargers": null
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -1,0 +1,32 @@
+[
+    {
+        "id": "001",
+        "amount": 0.2210,
+        "rate": "$",
+        "per": "min",
+        "additionalChargers": [
+            "002","001"
+        ]
+    },
+    {
+        "id": "002",
+        "amount": 0.0030,
+        "rate": "$",
+        "per": "min",
+        "additionalChargers": null
+    },
+    {
+        "id": "003",
+        "amount": 0.0075,
+        "rate": "$",
+        "per": "min",
+        "additionalChargers": null
+    },
+    {
+        "id": "004",
+        "amount": 0.0180,
+        "rate": "$",
+        "per": "min",
+        "additionalChargers": null
+    }
+]

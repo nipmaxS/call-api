@@ -1,0 +1,17 @@
+[
+    {
+        "id": "001",
+        "name": "Local Call",
+        "callType": ["001", "002"]
+    },
+    {
+        "id": "002",
+        "name": " Tall Free Call",
+        "callType": ["001", "002"]
+    },
+    {
+        "id": "003",
+        "name": " Client SDK (browser, mobile) and SIP Calls",
+        "callType": ["001", "002"]
+    }
+]
