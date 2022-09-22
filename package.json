@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.1",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "tempfile": "^4.0.0",
+    "tmp": "^0.2.1"
   }
 }

@@ -15,6 +15,10 @@
         "name": "Central Canada",
         "province": "Canada",
         "countryId": "002",
-        "numberTypes": null
+        "numberTypes": [
+            "001",
+            "002",
+            "003"
+        ]
     }
 ]

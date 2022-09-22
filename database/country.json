@@ -3,12 +3,16 @@
         "code": "LK",
         "name": "Sri Lanka",
         "flag": "https://flagcdn.com/w20/lk.png",
-        "Region": ["001"]
+        "region": [
+            "001"
+        ]
     },
     {
-        "code": "ca",
+        "code": "CA",
         "name": "Canada",
         "flag": "https://flagcdn.com/w20/ca.png",
-        "Region": null
+        "region": [
+            "002"
+        ]
     }
 ]

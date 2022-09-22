@@ -2,7 +2,7 @@
     {
         "id": "001",
         "name": "Local Call",
-        "callType": ["001", "002"]
+        "callType": null
     },
     {
         "id": "002",
