@@ -9,14 +9,14 @@ This is a api section which done for the facetone site call rating part integrat
 
 `Method : GET`
 
-- From this api can retrew the all the data that associated with each country.
+- From this api can retrieve the all the data that associated with each country.
 
 ##### Get Country List
 `{URL}/api/v1/all-countries`
 
 `Method : GET`
 
-From this api can retrew the all the countries from the database.
+From this api can retrieve the all the countries from the database.
 
 ##### Get Data From The Country Code
 `{URL}/api/v1/country?code=LK`
@@ -29,7 +29,7 @@ example :
 
 `code : LK`
 
-From this api can retrew the the with the given country code from the database and return all the price ranges additional chargers and the discounts wich are provided to the each price and the actual price.
+From this api can retrieve the the with the given country code from the database and return all the price ranges additional chargers and the discounts wich are provided to the each price and the actual price.
 
 
 ## Installation
