@@ -7,7 +7,7 @@ This is a api section which done for the facetone site call rating part integrat
 ##### Get All Data
 `{URL}/api/v1/all-data`
 
-`Method : GET`
+ `Method : GET`
 
 - From this api can retrieve the all the data that associated with each country.
 
@@ -16,53 +16,53 @@ This is a api section which done for the facetone site call rating part integrat
 
 `Method : GET`
 
-From this api can retrieve the all the countries from the database.
+- From this api can retrieve the all the countries from the database.
 
 ##### Get Data From The Country Code
 `{URL}/api/v1/country?code=LK`
 
 `Method : GET`
 
-The query parameter will be the country code and it should be bind with the API endpoint.
+- The query parameter will be the country code and it should be bind with the API endpoint.
 
-example : 
+	example : 
 
-`code : LK`
+	`code : LK`
 
-From this api can retrieve the the with the given country code from the database and return all the price ranges additional chargers and the discounts wich are provided to the each price and the actual price.
+- From this api can retrieve the the with the given country code from the database and return all the price ranges additional chargers and the discounts wich are provided to the each price and the actual price.
 
 
 ## Installation
 
 `git clone https://github.com/nipmaxS/call-api`
 
-The latest code is in the **branch api-es6-V2**.
+- The latest code is in the **branch api-es6-V2**.
 
 `git checkout branch api-es6-V2 `
 
-Then check the brach is switched properly by below command.
+- Then check the brach is switched properly by below command.
 
 `git branch`
 
-The go the the cloned folder to run the project.
+- The go the the cloned folder to run the project.
 
 `cd folderName`
 
-Insatall the nodemodules to the project.
+- Insatall the nodemodules to the project.
 
 `npm install`
 
-Run the project.
+- Run the project.
 
 `nodemon app.js`
 
 ## Development
 
-Development done by the facetone development team
+	Development done by the facetone development team
 
 ## Maintaince
 
-All new changes and the new features will be done by the facetone development team.
+	All new changes and the new features will be done by the facetone development team.
 
 
 
