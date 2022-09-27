@@ -52,6 +52,7 @@ app.get('/api/v1/country', (req, res) => {
 
                     })).flat() : [];
 
+                    // GET DISCOUNTS
                     const _priceDiscountValues = (pa.discounts != null) ? (pa.discounts.map(dist => {
 
                       return discounts.filter(d => d.id === dist);
