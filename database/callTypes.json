@@ -9,6 +9,6 @@
         "id": "002",
         "name": "Outbound",
         "isSupported": true,
-        "price": null
+        "price": "002"
     }
 ]

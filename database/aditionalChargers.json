@@ -1,14 +1,14 @@
 [
     {
         "id": "001",
-        "rate": "$",
+        "rate": "%",
         "type": "Vat",
-        "amount": 20
+        "amount": 5
     },
     {
         "id": "002",
-        "rate": "$",
+        "rate": "%",
         "type": "Service Chargers",
-        "amount": 50
+        "amount": 10
     }
 ]

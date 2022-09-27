@@ -2,31 +2,43 @@
     {
         "id": "001",
         "amount": 0.2210,
+        "actualAmount": 0,
         "rate": "$",
         "per": "min",
         "additionalChargers": [
             "002","001"
+        ],
+        "discounts": [
+            "001"
         ]
     },
     {
         "id": "002",
+        "actualAmount": 0.0030,
         "amount": 0.0030,
         "rate": "$",
         "per": "min",
-        "additionalChargers": null
+        "additionalChargers": null,
+        "discounts": null
     },
     {
         "id": "003",
+        "actualAmount": 0.0075,
         "amount": 0.0075,
         "rate": "$",
         "per": "min",
-        "additionalChargers": null
+        "additionalChargers": null,
+        "discounts": null
+
     },
     {
         "id": "004",
+        "actualAmount": 0.0180,
         "amount": 0.0180,
         "rate": "$",
         "per": "min",
-        "additionalChargers": null
+        "additionalChargers": null,
+        "discounts": null
+
     }
 ]
