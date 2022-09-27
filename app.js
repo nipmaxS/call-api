@@ -2,203 +2,255 @@ const express = require('express')
 const app = express()
 const port = 3000
 var _ = require('lodash');
-var tmp = require('tmp');
-var fs = require('fs');
-
 
 // MODLES
 const countries = require('./database/country.json');
-var regions = require('./database/region.json');
+const regions = require('./database/region.json');
 var numberTypes = require('./database/numberTypes.json');
 var callTypes = require('./database/callTypes.json');
 var prices = require('./database/price.json');
 var additionalChargers = require('./database/aditionalChargers.json');
+var discounts = require('./database/discount.json');
+const e = require('express');
 
-app.get('/country', (req, res) => {
+app.get('/api/v1/country', (req, res) => {
 
+  let code = req.query;
+  let selectedCountryArr = [];
+  let message = "";
+  const selectedCountry = countries.find(element => element.code === code.code);
 
-  const country_code = req.query.code;
-  var message = "";
+  if (selectedCountry) {
 
-  const countries_arr = countries;
+    selectedCountryArr.push(selectedCountry);
 
-  var country = _.find(countries_arr, function (o) { return o.code == country_code });
+    const conuntryRegion = selectedCountryArr.map(country => {
 
-  if (country) {
+      const _regions = (country.region.map(region => {
 
-    message = "Data found";
+        // GET NUMVER TYPE
+        const regionNumber = regions.map(rg => {
 
-    var regions_arr = []
+          const _numberTypes = (rg.numberTypes.map(numberType => {
 
-    if (country.region != null) {
+            // GET CALL TYPE
+            const regionNumberCallType = numberTypes.map(nt => {
 
-      for (let i = 0; i < country.region.length; i++) {
+              const _callTypes = (nt.callType != null) ? (nt.callType.map(ct => {
 
-        var region = _.find(regions, function (o) { return o.id == country.region[i] });
+                // GET PRICE
+                const calltypePrices = callTypes.map(cp => {
 
-        var numbers_arr = []
+                  let _price = prices.filter(p => p.id === cp.price);
 
-        if (region.numberTypes != null) {
+                  // GET ADDITIONAL CHARGERS
+                  const priceAdditionalValues = prices.map(pa => {
 
-          for (let n = 0; n < region.numberTypes.length; n++) {
+                    const _priceAdditionalValues = (pa.additionalChargers != null) ? (pa.additionalChargers.map(adValue => {
 
-            var number_type = _.find(numberTypes, function (o) { return o.id == region.numberTypes[n] });
+                      return additionalChargers.filter(p => p.id === adValue);
 
-            numbers_arr.push(number_type);
+                    })).flat() : [];
 
-            var callTypes_arr = []
+                    // GET DISCOUNTS
+                    const _priceDiscountValues = (pa.discounts != null) ? (pa.discounts.map(dist => {
 
-            if (number_type.callType != null) {
+                      return discounts.filter(d => d.id === dist);
 
-              for (let c = 0; c < number_type.callType.length; c++) {
+                    })).flat() : [];
 
-                var call_type = _.find(callTypes, function (o) { return o.id == number_type.callType[c] });
+                    // RETURN ADDITIONAL CHARGERS AND DISCOUNTS COMPONENT
+                    return { ...pa, additionalChargers: _priceAdditionalValues, discounts: _priceDiscountValues }
 
-                var price_obj = null;
-                
-                if (call_type.price) {
+                  });
 
-                  var price_obj = _.find(prices, function (o) { return o.id == call_type.price });
+                  _price = priceAdditionalValues.filter(p => p.id === cp.price);
 
-                  var additionalChargers_arr = []
+                  // CALCULATE ADDITIONAL CHARGERS
+                  let sum = _.sumBy(_price[0].additionalChargers, function (o) {
+                    return Math.round((_price[0].amount * o.amount / 100) * 1000) / 1000;
+                  });
 
-                  for (let a = 0; a < price_obj.additionalChargers.length; a++) {
+                  sum = sum + _price[0].amount;
 
-                    var additionalCharge_obj = _.find(additionalChargers, function (o) { return o.id == price_obj.additionalChargers[a] });
+                  // CALCULATE DISCOUNT
+                  let distAmount = _.sumBy(_price[0].discounts, function (o) {
+                    return Math.round((sum * o.amount / 100) * 1000) / 1000;
+                  });
 
-                    console.log("additionalChargers_arr");
-                    console.log(additionalCharge_obj);
-                    additionalChargers_arr.push(additionalCharge_obj);
+                  // CALCULATE ACTUWAL AMOUNT
+                  let actualAmount = (distAmount) ? sum - distAmount : sum;
 
-                    var total_amount = price_obj.amount;
+                  // ROUND OFF TO TWO DECIMAL PLACES
+                  _price[0].actualAmount = Math.round(actualAmount * 1000) / 1000;
 
-                    for (let t = 0; t < additionalChargers_arr.length; t++) {
-                      total_amount = total_amount + additionalChargers_arr[t].amount
-                    }
+                  // RETURN NUMBER COMPONENT
+                  return { ...cp, price: _price[0] }
 
-                    price_obj.total_amount = total_amount;
+                }).flat();
 
-                  }
+                return calltypePrices.filter(n => n.id === ct);
 
-                  price_obj.additionalChargers_arr = additionalChargers_arr;
+              })).flat() : [];
 
-                }
+              // RETURN CALL TYPE COMPONENT
+              return { ...nt, callType: [..._callTypes] }
 
-                call_type.price_obj = price_obj;
+            });
 
-                callTypes_arr.push(call_type);
+            return regionNumberCallType.filter(n => n.id === numberType);
 
-              }
+          })).flat();
 
-            }
+          // RETURN NUMBER TYPE COMPONENT
+          return { ...rg, numberTypes: [..._numberTypes] }
 
-            number_type.callTypes_arr = callTypes_arr;
+        });
 
-          }
+        // RETURN REGION COMPONENT
+        return regionNumber.filter(r => r.id === region).flat();
 
-        }
+      })).flat();
 
+      // RETURN COUNTRY COMPONENT
+      return { ...country, region: [..._regions] }
+    })
 
+    message = "Data found on selected country code";
 
-        region.numbers_arr = numbers_arr;
-
-        regions_arr.push(region);
-
-      }
-
-    }
-
-
-    country.regions_arr = regions_arr;
+    res.send({
+      "status": true,
+      "message": message,
+      "data": conuntryRegion[0]
+    })
 
   } else {
-    message = "No country found on given code";
-    country = {}
+
+    message = "Data not found on selected country code";
+
+    res.send({
+      "status": false,
+      "message": message,
+      "data": {}
+    })
+
   }
 
+})
+
+app.get('/api/v1/all-data', (req, res) => {
+
+    const conuntryRegion = countries.map(country => {
+
+      const _regions = (country.region.map(region => {
+
+        // GET NUMVER TYPE
+        const regionNumber = regions.map(rg => {
+
+          const _numberTypes = (rg.numberTypes.map(numberType => {
+
+            // GET CALL TYPE
+            const regionNumberCallType = numberTypes.map(nt => {
+
+              const _callTypes = (nt.callType != null) ? (nt.callType.map(ct => {
+
+                // GET PRICE
+                const calltypePrices = callTypes.map(cp => {
+
+                  let _price = prices.filter(p => p.id === cp.price);
+
+                  // GET ADDITIONAL CHARGERS
+                  const priceAdditionalValues = prices.map(pa => {
+
+                    const _priceAdditionalValues = (pa.additionalChargers != null) ? (pa.additionalChargers.map(adValue => {
+
+                      return additionalChargers.filter(p => p.id === adValue);
+
+                    })).flat() : [];
+
+                    // GET DISCOUNTS
+                    const _priceDiscountValues = (pa.discounts != null) ? (pa.discounts.map(dist => {
+
+                      return discounts.filter(d => d.id === dist);
+
+                    })).flat() : [];
+
+                    // RETURN ADDITIONAL CHARGERS AND DISCOUNTS COMPONENT
+                    return { ...pa, additionalChargers: _priceAdditionalValues, discounts: _priceDiscountValues }
+
+                  });
+
+                  _price = priceAdditionalValues.filter(p => p.id === cp.price);
+
+                  // CALCULATE ADDITIONAL CHARGERS
+                  let sum = _.sumBy(_price[0].additionalChargers, function (o) {
+                    return Math.round((_price[0].amount * o.amount / 100) * 1000) / 1000;
+                  });
+
+                  sum = sum + _price[0].amount;
+
+                  // CALCULATE DISCOUNT
+                  let distAmount = _.sumBy(_price[0].discounts, function (o) {
+                    return Math.round((sum * o.amount / 100) * 1000) / 1000;
+                  });
+
+                  // CALCULATE ACTUWAL AMOUNT
+                  let actualAmount = (distAmount) ? sum - distAmount : sum;
+
+                  // ROUND OFF TO TWO DECIMAL PLACES
+                  _price[0].actualAmount = Math.round(actualAmount * 1000) / 1000;
+
+                  // RETURN NUMBER COMPONENT
+                  return { ...cp, price: _price[0] }
+
+                }).flat();
+
+                return calltypePrices.filter(n => n.id === ct);
+
+              })).flat() : [];
+
+              // RETURN CALL TYPE COMPONENT
+              return { ...nt, callType: [..._callTypes] }
+
+            });
+
+            return regionNumberCallType.filter(n => n.id === numberType);
+
+          })).flat();
+
+          // RETURN NUMBER TYPE COMPONENT
+          return { ...rg, numberTypes: [..._numberTypes] }
+
+        });
+
+        // RETURN REGION COMPONENT
+        return regionNumber.filter(r => r.id === region).flat();
+
+      })).flat();
+
+      // RETURN COUNTRY COMPONENT
+      return { ...country, region: [..._regions] }
+    })
+
+    message = "Data found on selected country code";
+
+    res.send({
+      "status": true,
+      "message": message,
+      "data": conuntryRegion
+    })
+
+})
+
+app.get('/api/v1/all-countries', (req, res) => {
 
   res.send({
     "status": true,
-    "message": message,
-    "data": country
+    "message": "Data found",
+    "data": countries
   })
-})
 
-// app.get('/', (req, res) => {
-
-//   for (let index = 0; index < countries.length; index++) {
-
-//     if (countries[index].Region) {
-//       for (let x = 0; x < countries[index].Region.length; x++) {
-//         const element = _.find(region, function (o) { return o.id == countries[index].Region[x]; });
-
-//         countries[index].Region = [];
-//         countries[index].Region.push(element);
-
-//         var numberArr = [];
-
-//         for (let n = 0; n < countries[index].Region[x].numberTypes.length; n++) {
-
-//           var typeId = '';
-
-//           if (typeof countries[index].Region[x].numberTypes[n] == "object") {
-
-//             typeId = countries[index].Region[x].numberTypes[n].id;
-
-//           }else{
-
-//             typeId = countries[index].Region[x].numberTypes[n];
-
-//           }
-
-//           const numberType = _.find(numberTypes, function (o) { return o.id == typeId; });
-
-//           for (let c = 0; c < numberType.callType.length; c++) {
-
-//             const callType = _.find(callTypes, function (o) { return o.id == numberType.callType[c]; });
-
-//             numberType.callType[c] = callType;
-
-//             const price = _.find(prices, function (o) { return o.id == numberType.callType[c].price; });
-//             if (price) {
-
-//               numberType.callType[c].price = price;
-//               var total = price.amount;
-//               if (price.additionalChargers.length > 0) {
-//                 for (let a = 0; a < price.additionalChargers.length; a++) {
-//                   const adChargers = _.find(additionalChargers, function (o) { return o.id == price.additionalChargers[a]; });
-//                   price.additionalChargers[a] = adChargers;
-//                   total = total + adChargers.amount;
-//                   console.log(total);
-//                 }
-//                 price.totalWithAdditionalChargers = total
-
-//               } else {
-//                 price.totalWithAdditionalChargers = total
-
-//               }
-//             }
-
-//           }
-
-//           numberArr.push(numberType);
-
-//         }
-
-//         countries[index].Region[x].numberTypes = numberArr;
-
-
-//       }
-
-//     }
-
-//   }
-
-//   res.send({
-//     "status": true,
-//     "data": countries
-//   })
-// })
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

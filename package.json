@@ -4,7 +4,8 @@
   "description": "call api ",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test app.js",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
