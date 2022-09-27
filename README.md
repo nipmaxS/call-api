@@ -33,7 +33,7 @@ Run the project.
 
 Development done by the facetone development team
 
-## Maintaince :tw-1f527:
+## Maintaince
 
 All new changes and the new features will be done by the facetone development team.
 
