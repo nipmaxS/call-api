@@ -1,6 +1,6 @@
 # Facetone Call Api
 
-This is a api section which done for the facetone site call rating part integration. This api part develped by the **Express.js** and data base goes through the json files which are located in the file directory.
+This is a api section which done for the facetone site call rating part integration. This api part developed by the **Express.js** and data base goes through the json files which are located in the file directory.
 
 ## APIs
 
