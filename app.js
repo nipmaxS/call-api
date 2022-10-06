@@ -1,181 +1,206 @@
 const express = require('express')
-const app = express()
-const port = 3000
-var _ = require('lodash');
+const serverless = require("serverless-http");
+const app = express();
+const port = 3000;
+var _ = require("lodash");
 
 // MODLES
-const countries = require('./database/country.json');
-const regions = require('./database/region.json');
-var numberTypes = require('./database/numberTypes.json');
-var callTypes = require('./database/callTypes.json');
-var prices = require('./database/price.json');
-var additionalChargers = require('./database/aditionalChargers.json');
-var discounts = require('./database/discount.json');
-const e = require('express');
+const countries = require("./database/country.json");
+const regions = require("./database/region.json");
+var numberTypes = require("./database/numberTypes.json");
+var callTypes = require("./database/callTypes.json");
+var prices = require("./database/price.json");
+var additionalChargers = require("./database/aditionalChargers.json");
+var discounts = require("./database/discount.json");
+const e = require("express");
 
 const getData = (code) => {
-
   let selectedCountryArr = [];
   let selectedCountry = {};
 
   if (code) {
-    selectedCountry = countries.find(element => element.code === code.code);
+    selectedCountry = countries.find((element) => element.code === code.code);
     selectedCountry ? selectedCountryArr.push(selectedCountry) : [];
   } else {
     selectedCountryArr = countries;
   }
 
-  const conuntryRegion = selectedCountryArr.map(country => {
+  const conuntryRegion = selectedCountryArr.map((country) => {
+    const _regions = country.region
+      .map((region) => {
+        // GET NUMVER TYPE
+        const regionNumber = regions.map((rg) => {
+          const _numberTypes = rg.numberTypes
+            .map((numberType) => {
+              // GET CALL TYPE
+              const regionNumberCallType = numberTypes.map((nt) => {
+                const _callTypes =
+                  nt.callType != null
+                    ? nt.callType
+                        .map((ct) => {
+                          // GET PRICE
+                          const calltypePrices = callTypes
+                            .map((cp) => {
+                              let _price = prices.filter(
+                                (p) => p.id === cp.price
+                              );
 
-    const _regions = (country.region.map(region => {
+                              // GET ADDITIONAL CHARGERS
+                              const priceAdditionalValues = prices.map((pa) => {
+                                const _priceAdditionalValues =
+                                  pa.additionalChargers != null
+                                    ? pa.additionalChargers
+                                        .map((adValue) => {
+                                          return additionalChargers.filter(
+                                            (p) => p.id === adValue
+                                          );
+                                        })
+                                        .flat()
+                                    : [];
 
-      // GET NUMVER TYPE
-      const regionNumber = regions.map(rg => {
+                                // GET DISCOUNTS
+                                const _priceDiscountValues =
+                                  pa.discounts != null
+                                    ? pa.discounts
+                                        .map((dist) => {
+                                          return discounts.filter(
+                                            (d) => d.id === dist
+                                          );
+                                        })
+                                        .flat()
+                                    : [];
 
-        const _numberTypes = (rg.numberTypes.map(numberType => {
+                                // RETURN ADDITIONAL CHARGERS AND DISCOUNTS COMPONENT
+                                return {
+                                  ...pa,
+                                  additionalChargers: _priceAdditionalValues,
+                                  discounts: _priceDiscountValues,
+                                };
+                              });
 
-          // GET CALL TYPE
-          const regionNumberCallType = numberTypes.map(nt => {
+                              _price = priceAdditionalValues.filter(
+                                (p) => p.id === cp.price
+                              );
 
-            const _callTypes = (nt.callType != null) ? (nt.callType.map(ct => {
+                              // CALCULATE ADDITIONAL CHARGERS
+                              let sum = _.sumBy(
+                                _price[0].additionalChargers,
+                                function (o) {
+                                  return (
+                                    Math.round(
+                                      ((_price[0].amount * o.amount) / 100) *
+                                        1000
+                                    ) / 1000
+                                  );
+                                }
+                              );
 
-              // GET PRICE
-              const calltypePrices = callTypes.map(cp => {
+                              sum = sum + _price[0].amount;
 
-                let _price = prices.filter(p => p.id === cp.price);
+                              // CALCULATE DISCOUNT
+                              let distAmount = _.sumBy(
+                                _price[0].discounts,
+                                function (o) {
+                                  return (
+                                    Math.round(
+                                      ((sum * o.amount) / 100) * 1000
+                                    ) / 1000
+                                  );
+                                }
+                              );
 
-                // GET ADDITIONAL CHARGERS
-                const priceAdditionalValues = prices.map(pa => {
+                              // CALCULATE ACTUWAL AMOUNT
+                              let actualAmount = distAmount
+                                ? sum - distAmount
+                                : sum;
 
-                  const _priceAdditionalValues = (pa.additionalChargers != null) ? (pa.additionalChargers.map(adValue => {
+                              // ROUND OFF TO TWO DECIMAL PLACES
+                              _price[0].actualAmount =
+                                Math.round(actualAmount * 1000) / 1000;
 
-                    return additionalChargers.filter(p => p.id === adValue);
+                              // RETURN NUMBER COMPONENT
+                              return { ...cp, price: _price[0] };
+                            })
+                            .flat();
 
-                  })).flat() : [];
+                          return calltypePrices.filter((n) => n.id === ct);
+                        })
+                        .flat()
+                    : [];
 
-                  // GET DISCOUNTS
-                  const _priceDiscountValues = (pa.discounts != null) ? (pa.discounts.map(dist => {
+                // RETURN CALL TYPE COMPONENT
+                return { ...nt, callType: [..._callTypes] };
+              });
 
-                    return discounts.filter(d => d.id === dist);
+              return regionNumberCallType.filter((n) => n.id === numberType);
+            })
+            .flat();
 
-                  })).flat() : [];
+          // RETURN NUMBER TYPE COMPONENT
+          return { ...rg, numberTypes: [..._numberTypes] };
+        });
 
-                  // RETURN ADDITIONAL CHARGERS AND DISCOUNTS COMPONENT
-                  return { ...pa, additionalChargers: _priceAdditionalValues, discounts: _priceDiscountValues }
-
-                });
-
-                _price = priceAdditionalValues.filter(p => p.id === cp.price);
-
-                // CALCULATE ADDITIONAL CHARGERS
-                let sum = _.sumBy(_price[0].additionalChargers, function (o) {
-                  return Math.round((_price[0].amount * o.amount / 100) * 1000) / 1000;
-                });
-
-                sum = sum + _price[0].amount;
-
-                // CALCULATE DISCOUNT
-                let distAmount = _.sumBy(_price[0].discounts, function (o) {
-                  return Math.round((sum * o.amount / 100) * 1000) / 1000;
-                });
-
-                // CALCULATE ACTUWAL AMOUNT
-                let actualAmount = (distAmount) ? sum - distAmount : sum;
-
-                // ROUND OFF TO TWO DECIMAL PLACES
-                _price[0].actualAmount = Math.round(actualAmount * 1000) / 1000;
-
-                // RETURN NUMBER COMPONENT
-                return { ...cp, price: _price[0] }
-
-              }).flat();
-
-              return calltypePrices.filter(n => n.id === ct);
-
-            })).flat() : [];
-
-            // RETURN CALL TYPE COMPONENT
-            return { ...nt, callType: [..._callTypes] }
-
-          });
-
-          return regionNumberCallType.filter(n => n.id === numberType);
-
-        })).flat();
-
-        // RETURN NUMBER TYPE COMPONENT
-        return { ...rg, numberTypes: [..._numberTypes] }
-
-      });
-
-      // RETURN REGION COMPONENT
-      return regionNumber.filter(r => r.id === region).flat();
-
-    })).flat();
+        // RETURN REGION COMPONENT
+        return regionNumber.filter((r) => r.id === region).flat();
+      })
+      .flat();
 
     // RETURN COUNTRY COMPONENT
-    return { ...country, region: [..._regions] }
-  })
+    return { ...country, region: [..._regions] };
+  });
 
   return conuntryRegion;
 };
 
-app.get('/api/v1/country', (req, res) => {
-
+app.get("/api/v1/country", (req, res) => {
   let code = req.query;
   let message = "";
 
   const data = getData(code);
 
   if (data.length > 0) {
-
-    message = (data.length > 0) ? "Data found on selected country code" : "Data not found";
+    message =
+      data.length > 0
+        ? "Data found on selected country code"
+        : "Data not found";
 
     res.send({
-      "status": true,
-      "message": message,
-      "data": data[0]
-    })
-
+      status: true,
+      message: message,
+      data: data[0],
+    });
   } else {
-
     message = "Data not found on selected country code";
 
     res.send({
-      "status": false,
-      "message": message,
-      "data": {}
-    })
-
+      status: false,
+      message: message,
+      data: {},
+    });
   }
-
-})
-
-app.get('/api/v1/all-data', (req, res) => {
-
-  const data = getData();
-  message = (data.length > 0) ? "Data found" : "Data not found";
-
-  message =
-
-    res.send({
-      "status": true,
-      "message": message,
-      "data": data
-    })
-
-})
-
-app.get('/api/v1/all-countries', (req, res) => {
-
-  res.send({
-    "status": true,
-    "message": "Data found",
-    "data": countries
-  })
-
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+app.get("/api/v1/all-data", (req, res) => {
+  const data = getData();
+  message = data.length > 0 ? "Data found" : "Data not found";
+
+  message = res.send({
+    status: true,
+    message: message,
+    data: data,
+  });
+});
+
+app.get("/api/v1/all-countries", (req, res) => {
+  res.send({
+    status: true,
+    message: "Data found",
+    data: countries,
+  });
+});
+
+// app.listen(port, () => {
+//   console.log(`Example app listening on port ${port}`)
+// })
+
+module.exports.handler = serverless(app);
