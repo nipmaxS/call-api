@@ -1,7 +1,6 @@
 const express = require('express')
 const serverless = require("serverless-http");
 const app = express();
-const port = 3000;
 var _ = require("lodash");
 
 // MODLES
@@ -203,4 +202,5 @@ app.get("/api/v1/all-countries", (req, res) => {
 //   console.log(`Example app listening on port ${port}`)
 // })
 
+module.exports.app = app;
 module.exports.handler = serverless(app);

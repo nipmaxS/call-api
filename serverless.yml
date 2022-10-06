@@ -9,4 +9,12 @@ functions:
   app:
     handler: index.handler
     events:
-      - http: GET /
+      - http: 
+          path: /
+          method: ANY
+          cors: true
+      - http: 
+          path: /{proxy+}
+          method: ANY
+          cors: true
+
