@@ -10,3 +10,4 @@ const conuntryRegion = countries.map(country => {
 })
 
 console.log(JSON.stringify(conuntryRegion));
+// test
