@@ -2,16 +2,19 @@
     {
         "id": "001",
         "name": "Local Call",
-        "callType": null
+        "callType": ["001", "002"],
+        "pricePerNumber":0
     },
     {
         "id": "002",
         "name": " Tall Free Call",
-        "callType": ["001", "002"]
+        "callType": ["001", "002"],
+        "pricePerNumber":0
     },
     {
         "id": "003",
         "name": " Client SDK (browser, mobile) and SIP Calls",
-        "callType": ["001", "002"]
+        "callType": ["001", "002"],
+        "pricePerNumber":0
     }
 ]

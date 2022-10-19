@@ -1,12 +1,17 @@
 [
     {
         "id": "001",
+        "contryCode": "LK",
+        "numberType": "001",
+        "priceType": 0,
+        "callType": "001",
+        "_comment": "priceType : 0 (rate price) | priceType : 1 (number price)",
         "amount": 0.2210,
-        "actualAmount": 0,
         "rate": "$",
         "per": "min",
         "additionalChargers": [
-            "002","001"
+            "002",
+            "001"
         ],
         "discounts": [
             "001"
@@ -14,31 +19,80 @@
     },
     {
         "id": "002",
-        "actualAmount": 0.0030,
-        "amount": 0.0030,
+        "contryCode": "LK",
+        "numberType": "001",
+        "priceType": 0,
+        "callType": "002",
+        "_comment": "priceType : 0 (rate price) | priceType : 1 (number price)",
+        "amount": 0.0003,
         "rate": "$",
         "per": "min",
-        "additionalChargers": null,
+        "additionalChargers": [
+            "002",
+            "001"
+        ],
         "discounts": null
     },
     {
         "id": "003",
-        "actualAmount": 0.0075,
-        "amount": 0.0075,
+        "contryCode": "LK",
+        "numberType": "001",
+        "priceType": 1,
+        "callType": "",
+        "_comment": "priceType : 0 (rate price) | priceType : 1 (number price)",
+        "amount": 1,
         "rate": "$",
-        "per": "min",
-        "additionalChargers": null,
-        "discounts": null
-
+        "per": "month",
+        "additionalChargers": [
+            "002",
+            "001"
+        ],
+        "discounts":[
+            "001"
+        ]
     },
     {
         "id": "004",
-        "actualAmount": 0.0180,
-        "amount": 0.0180,
+        "contryCode": "LK",
+        "numberType": "002",
+        "priceType": 1,
+        "callType": "",
+        "_comment": "priceType : 0 (rate price) | priceType : 1 (number price)",
+        "amount": 0.0002,
         "rate": "$",
-        "per": "min",
+        "per": "month",
         "additionalChargers": null,
         "discounts": null
-
+    },
+    {
+        "id": "005",
+        "contryCode": "LK",
+        "numberType": "003",
+        "priceType": 1,
+        "callType": "",
+        "_comment": "priceType : 0 (rate price) | priceType : 1 (number price)",
+        "amount": 0.0003,
+        "rate": "$",
+        "per": "month",
+        "additionalChargers": null,
+        "discounts": null
+    },
+    {
+        "id": "007",
+        "contryCode": "CA",
+        "numberType": "001",
+        "priceType": 0,
+        "callType": "001",
+        "_comment": "priceType : 0 (rate price) | priceType : 1 (number price)",
+        "amount": 0.2210,
+        "rate": "$",
+        "per": "min",
+        "additionalChargers": [
+            "002",
+            "001"
+        ],
+        "discounts": [
+            "001"
+        ]
     }
 ]

@@ -3,7 +3,7 @@
         "id": "001",
         "name": "West Sri Lanka",
         "province": "Colombo",
-        "countryId": "001",
+        "countryCode": "LK",
         "numberTypes": [
             "001",
             "002",
@@ -14,7 +14,7 @@
         "id": "002",
         "name": "Central Canada",
         "province": "Canada",
-        "countryId": "002",
+        "countryCode": "CA",
         "numberTypes": [
             "001",
             "002",

@@ -4,13 +4,6 @@ This is a api section which done for the facetone site call rating part integrat
 
 ## APIs
 
-##### Get All Data
-`{URL}/api/v1/all-data`
-
- `Method : GET`
-
-- From this api can retrieve the all the data that associated with each country.
-
 ##### Get Country List
 `{URL}/api/v1/all-countries`
 

@@ -3,12 +3,12 @@
         "id": "001",
         "name": "Inbound",
         "isSupported": true,
-        "price": "001"
+        "price":null
     },
     {
         "id": "002",
         "name": "Outbound",
         "isSupported": true,
-        "price": "002"
+        "price":null
     }
 ]
