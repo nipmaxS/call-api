@@ -18,7 +18,39 @@
         "numberTypes": [
             "001",
             "002",
-            "003"
+            "004"
+        ]
+    },
+    {
+        "id": "003",
+        "name": "United State",
+        "province": "United State",
+        "countryCode": "US",
+        "numberTypes": [
+            "001",
+            "002"
+        ]
+    },
+    {
+        "id": "004",
+        "name": "United Kingdom",
+        "province": "United Kingdom",
+        "countryCode": "UK",
+        "numberTypes": [
+            "001",
+            "002",
+            "004"
+        ]
+    },
+    {
+        "id": "005",
+        "name": "Australia",
+        "province": "Australia",
+        "countryCode": "AU",
+        "numberTypes": [
+            "001",
+            "002",
+            "004"
         ]
     }
 ]

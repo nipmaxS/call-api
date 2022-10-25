@@ -14,5 +14,23 @@
         "region": [
             "002"
         ]
+    },
+    {
+        "code": "US",
+        "name": "United State",
+        "flag": "https://flagcdn.com/w20/us.png",
+        "region": null
+    },
+    {
+        "code": "UK",
+        "name": "United Kingdom",
+        "flag": "https://flagcdn.com/w20/gb.png",
+        "region": null
+    },
+    {
+        "code": "AU",
+        "name": "Australia",
+        "flag": "https://flagcdn.com/w20/au.png",
+        "region": null
     }
 ]

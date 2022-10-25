@@ -1,19 +1,25 @@
 [
     {
         "id": "001",
-        "name": "Local Call",
+        "name": "Local Number",
         "callType": ["001", "002"],
         "pricePerNumber":0
     },
     {
         "id": "002",
-        "name": " Tall Free Call",
+        "name": " Tall Free Number",
         "callType": ["001", "002"],
         "pricePerNumber":0
     },
     {
         "id": "003",
-        "name": " Client SDK (browser, mobile) and SIP Calls",
+        "name": "Client SDK (browser, mobile) and SIP Calls",
+        "callType": ["001", "002"],
+        "pricePerNumber":0
+    },
+    {
+        "id": "004",
+        "name": "Mobile Number",
         "callType": ["001", "002"],
         "pricePerNumber":0
     }
